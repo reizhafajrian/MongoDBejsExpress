@@ -1,0 +1,79 @@
+<%- include('../Head.ejs')%>
+
+<body class="c-app">
+    <div class="c-body">
+      <main class="c-main bg-white">
+        <div class="container-fluid">
+          <div class="fade-in">
+
+            <div class="row-auto">
+              <%- include('../Message.ejs') %>
+              <form class="form-supplier" action="/tambahmenu/add" method="POST">
+                <!-- <div class="form-group">
+                  <label for="id_supplier">ID Supplier</label>
+                  <select class="form-control" id="id_supplier" name="id_supplier">
+                   
+                  </select>
+                </div> -->
+             
+                <div class="form-group" >
+                  <label for="name_menu">Nama Menu</label>
+                  <input type="text" class="form-control name-menu" name="name_menu" id="name_menu" placeholder="Kopi">
+                </div>
+                <div class="form-group">
+                  <label for="id_supplier">ID Barang Masuk</label>
+                  <select  class="form-control" id="id_barang_add_menu" name="id_barang">
+                    <% barang.forEach((element,key)=>{%>
+                      <option   data-name="<%=element.name%>" value="<%=element._id%>"><%=element._id  %> </option>
+                    <%})%> 
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="name">Bahan</label>
+                  <input readonly type="text" class="form-control name-barang" name="name_bahan" id="name_bahan" placeholder="Kopi">
+                </div>
+                 
+                <div class="form-group">
+                  <label for="type">Tipe</label>
+                  <select class="form-control" id="type" name="type">
+                    <option value="true">Makanan</option>
+                    <option value="false">Minuman</option>
+                  </select>  
+                </div>
+                  <div class="form-group">
+                    <label for="jumlah">Jumlah Bahan Terpakai</label>
+                    <input type="number" class="form-control" name="jumlah" id="jumlah" placeholder="5">
+                  </div>    
+                  <div class="form-group">
+                    <label for="price">Harga Satuan</label>
+                    <input type="number" class="form-control" name="price" id="price" placeholder="50000">
+                  </div>     
+                <button type="submit" class="btn btn-primary">Save</button>
+              </form>
+
+            </div>
+
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+ 
+  <script>
+    $(window).load(async()=>{
+      const name=$('#id_barang_add_menu').find(":selected").data("name")
+        $('.name-barang').val(name)
+  
+      }
+      )
+    $('#id_barang_add_menu').on('change',function(){
+      const name=($(this).find(":selected").data("name"))
+      $('.name-barang').val(name)
+    })
+
+    
+
+ 
+  </script>
+ 

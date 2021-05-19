@@ -1,0 +1,127 @@
+<div class="c-wrapper c-fixed-components">
+  <div class="c-body">
+    <main class="c-main bg-white">
+      <div class="container-fluid">
+        <div class="fade-in">
+          <div class="row-auto">
+            <h1 class="h2">Tambah Barang Masuk</h1>
+            <%- include('../Message.ejs') %>
+            <form class="form-supplier" action="/barangmasuk/add" method="POST">
+              <div class="form-group">
+                <label for="id_supplier">ID Supplier</label>
+                <select
+                  class="form-control"
+                  id="id_supplier"
+                  name="id_supplier"
+                >
+                  <% supplier.forEach((element,key)=>{%>
+                  <option
+                    data-name="<%=element.name%>"
+                    value="<%=element._id%>"
+                  >
+                    <%=element._id %>
+                  </option>
+                  <%})%>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="name_supplier">Nama Supplier</label>
+                <input
+                  readonly
+                  type="text"
+                  class="form-control name-supplier"
+                  name="name_supplier"
+                  id="name_supplier"
+                  placeholder="Kopi"
+                />
+              </div>
+              <div class="form-group">
+                <label for="name">Nama Barang</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="name"
+                  id="name"
+                  placeholder="Kopi"
+                />
+              </div>
+              <div class="form-group">
+                <label for="price">Price</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="price"
+                  id="price-brg-mask"
+                  placeholder="50000"
+                />
+              </div>
+              <div class="form-group">
+                <label for="type">Tipe</label>
+                <select class="form-control" id="type" name="type">
+                  <option value="true">Makanan</option>
+                  <option value="false">Minuman</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="jumlah">Jumlah</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="jumlah"
+                  id="jumlah-brg-mask"
+                  placeholder="5"
+                />
+              </div>
+              <div class="form-group">
+                <label for="total">Total</label>
+                <input
+                  readonly
+                  type="text"
+                  class="form-control"
+                  name="total"
+                  id="total-brg-mask"
+                  placeholder="5"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+  $(window).load(async () => {
+    const name = $("#id_supplier").find(":selected").data("name");
+    $(".name-supplier").val(name);
+  });
+  $("#id_supplier").on("change", function () {
+    const name = $(this).find(":selected").data("name");
+    $(".name-supplier").val(name);
+  });
+  let jumlah = 0;
+  let price = 0;
+  const formater = new Intl.NumberFormat("en-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
+  $("#price-brg-mask").on("change", function () {
+    price = Number($(this).val());
+    // $("#total-brg-mask").val(mon.slice(4, mon.length-3));
+    const mon = formater.format(jumlah * price);
+    $("#total-brg-mask").val(mon.slice(4, mon.length-3));
+   
+  });
+  $("#jumlah-brg-mask").on("change", function () {
+    jumlah = Number($(this).val());
+
+    const mon = formater.format(jumlah * price);
+    console.log(mon.slice(4, mon.length-3))
+   
+    $("#total-brg-mask").val(mon.slice(4, mon.length-3));
+  });
+</script>
+
+<!-- CoreUI and necessary plugins-->

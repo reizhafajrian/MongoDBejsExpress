@@ -1,0 +1,21 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">No</th>
+            <th scope="col">Nama</th>
+            <th scope="col">Alamat</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% data.forEach((element,key)=>{%>
+        <tr>
+            <th scope="row"><%= key+1 %> </th>
+            <td><%= element.name %> </td>
+            <td><%= element.address %> </td>
+            <td><%= element.phone %> </td>
+        </tr>
+        <%})%>
+    </tbody>
+</table>

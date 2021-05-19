@@ -1,0 +1,56 @@
+<%- include('component/Head.ejs')%>
+
+<body class="c-app">
+  <%- include('component/SideBar.ejs')%>
+  <div class="c-wrapper c-fixed-components">
+    <%- include('component/Header.ejs')%>
+    <div class="c-body">
+      <main class="c-main bg-white pt-1">
+        <%- include('./component/Message.ejs') %> 
+        <div class="container-fluid">
+          <div class="fade-in">
+            <div class="row-auto">
+              <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                    aria-controls="pills-home" aria-selected="true">Daftar Supplier</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
+                    aria-controls="pills-profile" aria-selected="false">Tambah Supplier</a>
+                </li>   
+                <li class="search-ul nav-item ml-auto d-flex align-items-end">
+                  <form class="search-form form-inline align-items-center mb-0" action="/supplier/search" method="GET">
+                    <div class="form-group mb-0">
+                      <label for="nama" class="sr-only">Nama</label>
+                      <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-search">Search</button>
+                  </form> 
+                </li>
+           
+              </ul>
+              <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                  <%- include('./component/tambah_supplier/supplier.ejs') %> 
+                  <% if(action==="view") {%>
+                  <%- include('./component/pagination.ejs') %> 
+                  <% }%>
+                </div>
+                <div class="tab-form tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                  <%- include('./component/tambah_supplier/tambah.ejs') %> 
+                </div>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      </main>
+
+    </div>
+  </div>
+
+ 
+  <!-- CoreUI and necessary plugins-->
+  

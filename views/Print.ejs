@@ -1,0 +1,80 @@
+<%- include('component/Head.ejs')%>
+<body class="c-app">
+  <%- include('component/SideBar.ejs')%>
+  <div class="c-wrapper c-fixed-components">
+    <%- include('component/Header.ejs')%>
+    <div class="c-body">
+      <%- include('./component/Message.ejs') %>
+      <main class="c-main bg-white">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th colspan="4" class="text-center">Arigo Coffe</th>
+            </tr>
+          </thead>
+          <thead class="thead-dark">
+            <tr>
+              <th colspan="1.5" class="text-center">Nama Menu</th>
+              <th colspan="1" class="text-center">Jumlah</th>
+              <th colspan="2" class="text-center">harga</th>
+            </tr>
+          </thead>
+          <tbody>
+              <% data.forEach(element => {%>
+                <tr class="text-center">
+                    <td><%- element.namaMenu %> </td>
+                    <td><%- element.jumlah %> </td>
+                    <td class="totalPrice"><%- element.totalPrice %> </td>
+                  </tr>
+              <% }); %> 
+            <!-- <tr class="text-center">
+              <td>Coffe Latte</td>
+              <td>1</td>
+              <td>20000</td>
+            </tr>
+          
+            <tr class="text-center">
+              <td>Coffe Latte</td>
+              <td>1</td>
+              <td>20000</td>
+            </tr>
+            <tr class="text-center">
+              <td>Coffe Latte</td>
+              <td>1</td>
+              <td>20000</td>
+            </tr> -->
+            <tr class="text-center">
+        
+                <td colspan="2" class="text-right">Total</td>
+                <td class="total">20000</td>
+              </tr>
+
+            <tr class="text-right">
+              <td colspan="4">
+                <button class="btn btn-success">Print</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </main>
+    </div>
+  </div>
+</body>
+<script>
+  $(".btn").on("click", function () {
+    $(this).css("display", "none");
+    print();
+  });
+//   $('.total').html('t')
+  const allTotal=$('.totalPrice')
+  let jumlah=0
+  for (let index = 0; index < allTotal.length; index++) {
+      jumlah = jumlah+Number(allTotal[index].innerHTML)
+      
+  }
+//   allTotal.forEach(element => {
+//       jumlah=jumlah+Number(element.innerHTML)
+//   });()
+$('.total').html(jumlah)
+
+</script>

@@ -1,0 +1,22 @@
+<%- include('component/Head.ejs')%>
+
+<body class="c-app">
+  <%- include('component/SideBar.ejs')%>
+  <div class="c-wrapper c-fixed-components">
+    <%- include('component/Header.ejs')%>
+    <div class="c-body">
+      <main class="c-main bg-white">
+        <div class="container-fluid">
+          <div class="fade-in">
+            <div class="row">
+     
+              <%- include("./component/laporan_keuangan/table.ejs")  %> 
+            </div>
+          </div>
+        </div>
+      </main>
+  
+    </div>
+  </div>
+  <!-- CoreUI and necessary plugins-->
+  <%-include('component/Script.ejs')%>

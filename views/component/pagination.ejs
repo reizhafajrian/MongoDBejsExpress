@@ -1,0 +1,43 @@
+
+<nav>
+    <ul class="pagination">
+
+        <li class="page-item">
+            <a class="page-link" href="/supplier/1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+       
+        <% if(Number(page)==1) {%>
+        <li class="page-item">
+            <a class="page-link" href="/supplier/<%= parseInt(page) %>"><%= parseInt(page) %></a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="/supplier/<%= parseInt(page)+1 %>"><%= parseInt(page)+1 %></a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="/supplier/<%= parseInt(page)+2 %>"><%= parseInt(page)+2 %></a>
+        </li>
+        <%}%> 
+        <% if(Number(page)>Number(1)) {%>
+        <li class="page-item">
+            <a class="page-link" href="/supplier/<%= parseInt(page) %>"><%= parseInt(page)-1 %></a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="/supplier/<%= parseInt(page) %>"><%= parseInt(page) %></a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="/supplier/<%= parseInt(page)+1 %>"><%= parseInt(page)+1 %></a>
+        </li>
+        <%}%>
+      
+
+
+  
+        <a class="page-link"  href="/supplier/<%= parseInt(pages) %>" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+        </li>
+      
+    </ul>
+</nav>
