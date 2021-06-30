@@ -147,8 +147,9 @@
       })
 
       $(".minus").off().click(function(){
+    
         
-        const form=$(this).parent().children(".form-control")
+        const form=$(this).parent().children(".jumlah")
         const price=$(this).parent().parent().children("#price")
         if(Number(form.val())>0){
         const jumlah=Number(form.val())-1

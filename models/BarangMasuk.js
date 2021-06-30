@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const {ObjectId} = mongoose.Schema;
+const { ObjectId } = mongoose.Schema;
 const BarangMasukSchema = new mongoose.Schema({
-  idSupplier:{
+  idSupplier: {
     type: ObjectId,
-    ref:"Supplier"
+    ref: "Supplier",
   },
   name: {
     type: String,
@@ -20,7 +20,7 @@ const BarangMasukSchema = new mongoose.Schema({
   total: {
     type: Number,
     required: true,
-  },  
+  },
   totalPrice: {
     type: Number,
     required: true,
@@ -28,11 +28,13 @@ const BarangMasukSchema = new mongoose.Schema({
   date: {
     type: Date,
     required: true,
-    default:Date.now
+    default: Date.now
   },
-  idMenu:[{
-    type:ObjectId,
-    ref:"Menu"
-  }]
+  idMenu: [
+    {
+      type: ObjectId,
+      ref: "Menu",
+    },
+  ],
 });
 module.exports = mongoose.model("BarangMasuk", BarangMasukSchema);

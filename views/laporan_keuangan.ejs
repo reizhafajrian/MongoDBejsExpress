@@ -9,14 +9,106 @@
         <div class="container-fluid">
           <div class="fade-in">
             <div class="row">
-     
-              <%- include("./component/laporan_keuangan/table.ejs")  %> 
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <div style="flex-direction: row; justify-content: space-between; display: flex;align-items: center;">
+                    <label>Filter Pendapatan</label>
+                    <button
+                      class="btn btn-primary"
+                      onclick="exportReportToExcel()"
+                    >
+                      Download
+                    </button>
+                  </div>
+                  <div class="input-group date">
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                    <!-- <form
+                      action="/laporan-keuangan/filter"
+                      method="GET"
+                      style="display: flex"
+                    >
+                    <div class="input-daterange input-group" id="datepicker">
+                      <input id="ArrivalDate" type="text" class="input-sm form-control" name="start" value="" />
+                      <span class="input-group-addon">to</span>
+                      <input id="DepartDate" type="text" class="input-sm form-control" name="end" value="" />
+                    </div>
+                      <button type="submit" class="btn btn-primary">
+                        Search
+                      </button>
+                    </form> -->
+
+                    <form
+                      id="form"
+                      name="form"
+                      class="form-inline"
+                      action="/laporan-keuangan/filter"
+                      method="GET"
+                    >
+                      <div class="form-group">
+                        <input readonly type="text" name="daterange" value="" />
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <%- include("./component/laporan_keuangan/table.ejs") %>
             </div>
           </div>
         </div>
       </main>
-  
     </div>
   </div>
   <!-- CoreUI and necessary plugins-->
-  <%-include('component/Script.ejs')%>
+  <script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
+  ></script>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+  />
+  <script type="text/javascript">
+    $(function () {
+      $('input[name="daterange"]').daterangepicker(
+        {
+          opens: "left",
+        },
+        function (start, end, label) {
+          window.location.href = `/laporan-keuangan/filter?start=${start.format(
+            "YYYY-MM-DD"
+          )}&end=${end.format("YYYY-MM-DD")}`;
+        }
+      );
+    });
+    // Setter
+
+    // var currentDate = $(".datepicker").datepicker("getDate");
+    // const datas=$(".datepicker").onSelect
+    // console.log(datas)
+  </script>
+  <script>
+    function exportReportToExcel() {
+      let table = document.getElementsByTagName("table"); // you can use document.getElementById('tableId') as well by providing id to the table tag
+      TableToExcel.convert(table[0], {
+        // html code may contain multiple tables so here we are refering to 1st table tag
+        name: `export.xlsx`, // fileName you could use any name
+        sheet: {
+          name: "Sheet 1", // sheetName
+        },
+      });
+    }
+  </script>
+</body>

@@ -93,7 +93,7 @@
 </div>
 
 <script>
-  $(window).load(async () => {
+  $(window).on("load", function () {
     const name = $("#id_supplier").find(":selected").data("name");
     $(".name-supplier").val(name);
   });
@@ -111,16 +111,15 @@
     price = Number($(this).val());
     // $("#total-brg-mask").val(mon.slice(4, mon.length-3));
     const mon = formater.format(jumlah * price);
-    $("#total-brg-mask").val(mon.slice(4, mon.length-3));
-   
+    $("#total-brg-mask").val(mon.slice(4, mon.length - 3));
   });
   $("#jumlah-brg-mask").on("change", function () {
     jumlah = Number($(this).val());
 
     const mon = formater.format(jumlah * price);
-    console.log(mon.slice(4, mon.length-3))
-   
-    $("#total-brg-mask").val(mon.slice(4, mon.length-3));
+    console.log(mon.slice(4, mon.length - 3));
+
+    $("#total-brg-mask").val(mon.slice(4, mon.length - 3));
   });
 </script>
 

@@ -29,13 +29,18 @@ router.post("/supplier/add", AdminController.addSupplier);
 //tambahbarangmasuk
 router.get("/barangmasuk", AdminController.viewBarangMasuk);
 router.post("/barangmasuk/add", AdminController.addBarangMasuk);
+router.put("/editbarangmasuk", AdminController.editBarangMasuk);
+router.delete("/deleteBarang", AdminController.deleteBarangMasuk);
 
 //tambah menu
+
 router.get("/tambahmenu/", AdminController.viewAddMenu);
 router.post("/tambahmenu/add", AdminController.addMenu);
 router.post("/ordermenu", AdminController.orderMenu);
 router.put("/editMenu", AdminController.editOrderMenu);
 router.delete("/deleteMenu", AdminController.deleteMenu);
+
+router.get("/laporan-keuangan/filter/", AdminController.getDateFilter);
 
 
 router.get("/laporankeuangan", AdminController.laporanKeuangan);

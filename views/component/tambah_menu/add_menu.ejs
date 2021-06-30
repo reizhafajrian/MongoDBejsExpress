@@ -1,4 +1,4 @@
-<%- include('../Head.ejs')%>
+
 
 <body class="c-app">
     <div class="c-body">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                   <label for="id_supplier">ID Barang Masuk</label>
-                  <select  class="form-control" id="id_barang_add_menu" name="id_barang">
+                  <select  class="form-control" id="id_barang_add_menus" name="id_barang">
                     <% barang.forEach((element,key)=>{%>
                       <option   data-name="<%=element.name%>" value="<%=element._id%>"><%=element._id  %> </option>
                     <%})%> 
@@ -30,7 +30,7 @@
                 </div>
                 <div class="form-group">
                   <label for="name">Bahan</label>
-                  <input readonly type="text" class="form-control name-barang" name="name_bahan" id="name_bahan" placeholder="Kopi">
+                  <input readonly type="text" class="form-control name-barangs" name="name_bahan" id="name_bahan" placeholder="Kopi">
                 </div>
                  
                 <div class="form-group">
@@ -61,15 +61,14 @@
   </div>
  
   <script>
-    $(window).load(async()=>{
+    $(window).on("load",function () {
       const name=$('#id_barang_add_menu').find(":selected").data("name")
-        $('.name-barang').val(name)
-  
-      }
-      )
-    $('#id_barang_add_menu').on('change',function(){
+        $('.name-barangs').val(name)
+    })
+    $('#id_barang_add_menus').on('change',function(){
+    
       const name=($(this).find(":selected").data("name"))
-      $('.name-barang').val(name)
+      $('.name-barangs').val(name)
     })
 
     

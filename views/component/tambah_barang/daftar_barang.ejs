@@ -15,7 +15,10 @@
             <tr>
               <th scope="row"><%= key+1 %> </th>
               <td><%= element.name %> </td>
-              <td><%= element.idSupplier.name %> </td>
+              
+              <td>
+                <%- element.idSupplier!==null ?element.idSupplier.name:"supplier tidak terdaftar" %>
+              </td>
               <th scope="col"><%= element.price %> </th>
               <th scope="col"><%- element.type?"Makanan":"Minuman" %> </th>
               <th scope="col"><%= element.total %> </th>
@@ -23,11 +26,20 @@
                 <button
                   type="button"
                   class="btn btn-primary"
+               
+          id="btn_edit"
+          data-toggle="modal"
+          data-target="#modalEditMenu"
+          data-name="<%= element.name %>"
+          data-price="<%= element.price %>"
+          data-id="<%= element._id %>"
+          data-stock="<%= element.total %>"
+          data-type="<%= element.type %>"
              
                 >
                   Edit
                 </button>
-                <button id="btn_delete"             data-toggle="modal"    type="button" data-target="#modalDelete" class="btn btn-danger">Delete</button>
+                <button id="btn_delete"    data-id="<%= element._id %>"             data-toggle="modal"    type="button" data-target="#modalDelete" class="btn btn-danger">Delete</button>
               </td>
             </tr>
             <%})%>
@@ -58,7 +70,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="/editMenu?_method=PUT" method="POST">
+          <form action="/editbarangmasuk?_method=PUT" method="POST">
              <!-- <div class="form-group">
                     <label for="id_supplier">ID Supplier</label>
                     <select class="form-control" id="id_supplier" name="id_supplier">
@@ -71,16 +83,11 @@
                       <label for="name_menu">Nama Barang</label>
                       <input type="text" class="form-control name-menu" name="name_menu" id="name_menu" placeholder="Kopi">
                     </div>
-                    <div class="form-group">
-                      <label for="id_supplier"> Masuk</label>
-                      <select aria-readonly="true" class="form-control" id="id_barang" name="id_barang">
-                
-                      </select>
-                    </div>
-                    <div class="form-group">
+                   
+                    <!-- <div class="form-group">
                       <label for="name">Bahan</label>
                       <input readonly type="text" class="form-control name-barang" name="name_bahan" id="name_bahan" placeholder="Kopi">
-                    </div>
+                    </div> -->
                      
                     <div class="form-group">
                       <label for="type">Tipe</label>
@@ -89,13 +96,17 @@
                         <option value="false">Minuman</option>
                       </select>  
                     </div>
+                    <div class="form-group">
+                      <label for="price">Total</label>
+                      <input type="number" class="form-control" name="price" id="price-brg-masuks" placeholder="5">
+                    </div> 
                       <div class="form-group">
-                        <label for="jumlah">Jumlah Bahan Terpakai</label>
-                        <input type="number" class="form-control" name="jumlah" id="jumlah" placeholder="5">
+                        <label for="jumlah">Total</label>
+                        <input type="number" class="form-control" name="jumlah" id="jumlah-brg-masuks" placeholder="5">
                       </div>    
                       <div class="form-group">
-                        <label for="price">Harga Satuan</label>
-                        <input type="number" class="form-control" name="price" id="price" placeholder="50000">
+                        <label for="price">Total Price</label>
+                        <input type="text" class="form-control" name="total_price" id="total-price-masuks" placeholder="50000">
                       </div>     
    
   
@@ -132,7 +143,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="/deleteMenu?_method=DELETE" method="POST">
+          <form action="/deleteBarang?_method=DELETE" method="POST">
                       <div class="form-group">
                         <p>Item ini akan di hapus</p>
                         <input hidden readonly type="text" class="form-control" name="id" id="id_menus">
@@ -167,6 +178,30 @@
   
   })
     
+  let jums = 0;
+  let prices = 0;
+  const formaters = new Intl.NumberFormat("en-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
+  $("#price-brg-masuks").on("change", function () {
+    prices = Number($(this).val());
+    // $("#total-brg-mask").val(mon.slice(4, mon.length-3));
+    const mon = formaters.format(jums * prices);
+    $("#total-brg-mask").val(mon.slice(4, mon.length - 3));
+  });
+  $("#jumlah-brg-masuks").on("change", function () {
+    jums = Number($(this).val());
+    const mon = formaters.format(jums * prices);
+
+
+    $("#total-price-masuks").val(mon.slice(4, mon.length - 3));
+  });
+  $(".table").on("click","#btn_delete",function(){
+    const id=$(this).data("id")
+    $("#id_menus").val(id)
+
+})
   
   </script>
   

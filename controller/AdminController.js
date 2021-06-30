@@ -4,6 +4,7 @@ const Menu = require("../models/Menu");
 const BarangKeluar = require("../models/BarangTerjual");
 const User = require("../models/User");
 const Role = require("../models/Role");
+const BarangTerjual = require("../models/BarangTerjual");
 
 const getAuth = async (email, password) => {
   return true;
@@ -226,6 +227,33 @@ module.exports = {
       res.redirect("/barangmasuk");
     }
   },
+  editBarangMasuk: async (req, res) => {
+    const data = req.body;
+    const totalNumber = Number(data.total_price.replace(/\,/g, ""));
+
+    try {
+      const barangmasuk = await BarangMasuk.findByIdAndUpdate(data.id, {
+        name: data.name_menu,
+        price: data.price,
+        type: data.type,
+        total: data.jumlah,
+        totalPrice: totalNumber,
+      });
+      barangmasuk.save();
+
+      req.flash("alertMessage", `Berhasil Menghapus barang masuk`);
+      req.flash("alertStatus", "success");
+      res.redirect("/barangmasuk");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  deleteBarangMasuk: async (req, res) => {
+    const { id } = req.body;
+
+    await BarangMasuk.findByIdAndRemove(id);
+    res.redirect("/barangmasuk");
+  },
   viewAddMenu: async (req, res) => {
     const email = req.session.user.email;
     const menu = await Menu.find();
@@ -250,7 +278,7 @@ module.exports = {
     const data = req.body;
     try {
       const menu = await Menu.findById(data.id);
-      console.log(menu, data);
+
       menu.name = data.name_menu;
       menu.price = Number(data.price);
       menu.jumlahBarangTerpakai = Number(data.jumlah);
@@ -316,17 +344,17 @@ module.exports = {
       if (jumlah.length > 0) {
         await jumlah.forEach(async (element, key) => {
           if (element !== "0") {
-            const barangLaku = await BarangKeluar.create({
-              idMenu: nama_id[key],
-              jumlah: element,
-              totalPrice: total_price[key],
-            });
-
             const menu = await Menu.findOne({ _id: nama_id[key] }).populate({
               path: "idBarangMasuk",
               select: "_id name price total",
             });
-            if (menu.idBarangMasuk.total - menu.jumlahBarangTerpaka > 0) {
+            console.log(menu, "ini menu");
+            if (menu.idBarangMasuk.total - menu.jumlahBarangTerpakai > 0) {
+              const barangLaku = await BarangKeluar.create({
+                idMenu: nama_id[key],
+                jumlah: element,
+                totalPrice: total_price[key],
+              });
               const barangMasuks = await BarangMasuk.findOneAndUpdate(
                 { _id: menu.idBarangMasuk._id },
                 { total: menu.idBarangMasuk.total - menu.jumlahBarangTerpakai }
@@ -344,23 +372,16 @@ module.exports = {
                 title: "Print",
                 data: data,
                 email,
-                
-                
-      
               });
-              
-            }else{
-             
+            } else {
               req.flash(
                 "alertMessage",
                 "Gagal Memproses Stok Barang Masuk Habis"
               );
-              res.redirect("/")
+              res.redirect("/");
             }
           }
         });
-   
-       
       }
     } catch (error) {
       console.log(error);
@@ -372,11 +393,29 @@ module.exports = {
       path: "idMenu",
       select: "_id price name",
     });
-
+    console.log(data);
     res.render("laporan_keuangan", {
       title: "Laporan Keuangan",
       email,
       data,
+    });
+  },
+  getDateFilter: async (req, res) => {
+    const email = req.session.user.email;
+    const start = req.query.start;
+    const end = req.query.end;
+
+    const hasil = await BarangTerjual.find({
+      date: { $gte: start, $lt: end },
+    }).populate({
+      path: "idMenu",
+      select: "_id price name",
+    });
+    console.log(hasil);
+    res.render("laporan_keuangan", {
+      title: "Laporan Keuangan",
+      email,
+      data: hasil,
     });
   },
 };
