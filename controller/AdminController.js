@@ -250,7 +250,6 @@ module.exports = {
   },
   deleteBarangMasuk: async (req, res) => {
     const { id } = req.body;
-
     await BarangMasuk.findByIdAndRemove(id);
     res.redirect("/barangmasuk");
   },
@@ -349,7 +348,7 @@ module.exports = {
               select: "_id name price total",
             });
             console.log(menu, "ini menu");
-            if (menu.idBarangMasuk.total - menu.jumlahBarangTerpakai > 0) {
+            if (menu.idBarangMasuk.total - menu.jumlahBarangTerpakai >= 0) {
               const barangLaku = await BarangKeluar.create({
                 idMenu: nama_id[key],
                 jumlah: element,
@@ -416,6 +415,25 @@ module.exports = {
       title: "Laporan Keuangan",
       email,
       data: hasil,
+    });
+  },
+  viewMember: async (req, res) => {
+    const email = req.session.user.email;
+    const alertMesage = req.flash("alertMessage");
+    const alertStatus = req.flash("alertStatus");
+    const menu = await Menu.find();
+    const barang = await BarangMasuk.find();
+    const alert = {
+      message: alertMesage,
+      status: alertStatus,
+    };
+
+    res.render("tambah_member", {
+      title: "Tambah Member",
+      email,
+      alert,
+      data:menu,
+      barang
     });
   },
 };

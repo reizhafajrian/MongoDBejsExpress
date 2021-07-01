@@ -45,4 +45,8 @@ router.get("/laporan-keuangan/filter/", AdminController.getDateFilter);
 
 router.get("/laporankeuangan", AdminController.laporanKeuangan);
 
+//tambah member
+router.get("/createmember", AdminController.viewMember);
+
+
 module.exports = router;
