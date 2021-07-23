@@ -47,6 +47,8 @@ router.get("/laporankeuangan", AdminController.laporanKeuangan);
 
 //tambah member
 router.get("/createmember", AdminController.viewMember);
+router.post("/createmember/add", AdminController.addMember);
+router.put("/editDiscount", AdminController.editDiscount);
 
 
 module.exports = router;

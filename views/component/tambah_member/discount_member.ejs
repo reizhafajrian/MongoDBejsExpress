@@ -2,47 +2,38 @@
     <thead>
       <tr>
         <th scope="col">No</th>
-        <th scope="col">Nama Barang</th>
-        <th scope="col">Nama Supplier</th>
+        <th scope="col">Nama Menu</th>
         <th scope="col">Harga</th>
-        <th scope="col">Tipe</th>
-        <th scope="col">Jumlah</th>
-        <th scope="col">Action</th>
+        <th scope="col">Barang Masuk Yang Terpakai</th>
+        <th scope="col">Aksi</th>
       </tr>
     </thead>
     <tbody>
-        <% data.forEach((element,key)=>{%>
-            <tr>
-              <th scope="row"><%= key+1 %> </th>
-              <td><%= element.name %> </td>
-              
-              <td>
-                <%- element.idSupplier!==null ?element.idSupplier.name:"supplier tidak terdaftar" %>
-              </td>
-              <th scope="col"><%= element.price %> </th>
-              <th scope="col"><%- element.type?"Makanan":"Minuman" %> </th>
-              <th scope="col"><%= element.total %> </th>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-               
-          id="btn_edit"
-          data-toggle="modal"
-          data-target="#modalEditMenu"
-          data-name="<%= element.name %>"
-          data-price="<%= element.price %>"
-          data-id="<%= element._id %>"
-          data-stock="<%= element.total %>"
-          data-type="<%= element.type %>"
-             
-                >
-                  Edit
-                </button>
-                <button id="btn_delete"    data-id="<%= element._id %>"             data-toggle="modal"    type="button" data-target="#modalDelete" class="btn btn-danger">Delete</button>
-              </td>
-            </tr>
-            <%})%>
+      <% data.forEach((element,key)=>{%>
+      <tr>
+        <th scope="row"><%= key+1 %></th>
+        <td><%= element.name %></td>
+        <td><%= element.price %></td>
+        <td><%= element.jumlahBarangTerpakai %></td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-primary"
+            id="btn_edit"
+            data-toggle="modal"
+            data-target="#modalEditMenu"
+            data-name="<%= element.name %>"
+            data-price="<%= element.price %>"
+            data-id="<%= element._id %>"
+            data-stock="<%= element.jumlahBarangTerpakai %>"
+            data-type="<%= element.type %>"
+          >
+            Edit
+          </button>
+          <button id="btn_delete"           data-id="<%= element._id %>"    data-toggle="modal"    type="button" data-target="#modalDelete" class="btn btn-danger">Delete</button>
+        </td>
+      </tr>
+      <%})%>
     </tbody>
   </table>
   <!-- Button trigger modal -->
@@ -59,7 +50,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Barang Masuk</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Edit Menu</h5>
           <button
             type="button"
             class="close"
@@ -70,7 +61,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="/editbarangmasuk?_method=PUT" method="POST">
+          <form action="/editDiscount?_method=PUT" method="POST">
              <!-- <div class="form-group">
                     <label for="id_supplier">ID Supplier</label>
                     <select class="form-control" id="id_supplier" name="id_supplier">
@@ -80,34 +71,45 @@
                   <input hidden type="text" class="form-control name-menu" name="id" id="id_menu">
               
                   <div class="form-group" >
-                      <label for="name_menu">Nama Barang</label>
-                      <input type="text" class="form-control name-menu" name="name_menu" id="name_menu" placeholder="Kopi">
+                      <label for="name_menu">Nama Menu</label>
+                      <input readonly type="text" class="form-control name-menu" name="name_menu" id="name_menu" placeholder="Kopi">
                     </div>
-                   
-                    <!-- <div class="form-group">
+                    <div hidden class="form-group">
+                      <label for="id_supplier">ID Barang Masuk</label>
+                      <select  aria-readonly="true" class="form-control" id="id_barang" name="id_barang">
+                        <% barang.forEach((element,key)=>{%>
+                          <option   data-name="<%=element.name%>" value="<%=element._id%>"><%=element._id  %> </option>
+                        <%})%> 
+                      </select>
+                    </div>
+                    <div hidden class="form-group">
                       <label for="name">Bahan</label>
                       <input readonly type="text" class="form-control name-barang" name="name_bahan" id="name_bahan" placeholder="Kopi">
-                    </div> -->
+                    </div>
                      
-                    <div class="form-group">
+                    <div hidden class="form-group">
                       <label for="type">Tipe</label>
                       <select class="form-control" id="type" name="type">
                         <option value="true">Makanan</option>
                         <option value="false">Minuman</option>
                       </select>  
                     </div>
-                    <div class="form-group">
-                      <label for="price">Harga</label>
-                      <input type="number" class="form-control" name="price" id="price-brg-masuks" placeholder="5">
-                    </div> 
                       <div class="form-group">
-                        <label for="jumlah">Total</label>
-                        <input type="number" class="form-control" name="jumlah" id="jumlah-brg-masuks" placeholder="5">
+                        <label for="jumlah">Jumlah Bahan Terpakai</label>
+                        <input readonly type="number" class="form-control" name="jumlah" id="jumlah" placeholder="5">
                       </div>    
                       <div class="form-group">
-                        <label for="price">Total Price</label>
-                        <input type="text" class="form-control" name="total_price" id="total-price-masuks" placeholder="50000">
-                      </div>     
+                        <label for="price">Harga Satuan</label>
+                        <input readonly type="number" class="form-control" name="price" id="price" placeholder="50000">
+                      </div>    
+                      <div class="form-group">
+                        <label for="price">Discount untuk member</label>
+                        <div style="display: flex;align-items: center;">
+                        <input style="width: 20%;" type="number" class="form-control" name="discount" id="discount" placeholder="30">
+                        
+                      <h4 style="margin-bottom: 0;margin-left: 12;">%</h4>
+                    </div>
+                      </div>  
    
   
         </div>
@@ -143,7 +145,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="/deleteBarang?_method=DELETE" method="POST">
+          <form action="/deleteMenu?_method=DELETE" method="POST">
                       <div class="form-group">
                         <p>Item ini akan di hapus</p>
                         <input hidden readonly type="text" class="form-control" name="id" id="id_menus">
@@ -178,30 +180,6 @@
   
   })
     
-  let jums = 0;
-  let prices = 0;
-  const formaters = new Intl.NumberFormat("en-ID", {
-    style: "currency",
-    currency: "IDR",
-  });
-  $("#price-brg-masuks").on("change", function () {
-    prices = Number($(this).val());
-    // $("#total-brg-mask").val(mon.slice(4, mon.length-3));
-    const mon = formaters.format(jums * prices);
-    $("#total-brg-mask").val(mon.slice(4, mon.length - 3));
-  });
-  $("#jumlah-brg-masuks").on("change", function () {
-    jums = Number($(this).val());
-    const mon = formaters.format(jums * prices);
-
-
-    $("#total-price-masuks").val(mon.slice(4, mon.length - 3));
-  });
-  $(".table").on("click","#btn_delete",function(){
-    const id=$(this).data("id")
-    $("#id_menus").val(id)
-
-})
   
   </script>
   

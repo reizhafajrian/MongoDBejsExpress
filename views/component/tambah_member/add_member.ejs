@@ -1,0 +1,54 @@
+<div class="c-wrapper c-fixed-components">
+  <div class="c-body">
+    <main class="c-main bg-white">
+      <div class="container-fluid">
+        <div class="fade-in">
+          <div class="row-auto">
+            <h1 class="h2">Tambah Barang Masuk</h1>
+            <%- include('../Message.ejs') %>
+            <form
+              class="form-supplier"
+              action="/createmember/add"
+              method="POST"
+            >
+              <div class="form-group">
+                <label for="nem">Nama</label>
+                <input
+      
+                  type="text"
+                  class="form-control name-member"
+                  name="name"
+                  id="name"
+                  placeholder="arigo"
+                />
+              </div>
+              <div class="form-group">
+                <label for="name">Nomor Telfon</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="phone"
+                  id="phone"
+                  placeholder="0812118972231"
+                />
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <textarea
+                  class="form-control"
+                  name="address"
+                  id="address"
+                  rows="3"
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+<!-- CoreUI and necessary plugins-->

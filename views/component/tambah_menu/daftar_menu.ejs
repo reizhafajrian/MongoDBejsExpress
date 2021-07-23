@@ -74,20 +74,20 @@
                     <label for="name_menu">Nama Menu</label>
                     <input type="text" class="form-control name-menu" name="name_menu" id="name_menu" placeholder="Kopi">
                   </div>
-                  <div class="form-group">
-                    <label for="id_supplier">ID Barang Masuk</label>
+                  <div hidden class="form-group">
+                    <labelfor="id_supplier">ID Barang Masuk</label>
                     <select aria-readonly="true" class="form-control" id="id_barang" name="id_barang">
                       <% barang.forEach((element,key)=>{%>
-                        <option  data-name="<%=element.name%>" value="<%=element._id%>"><%=element._id  %> </option>
+                        <option  data-name="<%=element.name%>" value="<%=element._id%>"><%=element.name %> </option>
                       <%})%> 
                     </select>
                   </div>
-                  <div class="form-group">
+                  <div hidden class="form-group">
                     <label for="name">Bahan</label>
                     <input readonly type="text" class="form-control name-barang" name="name_bahan" id="name_bahan" placeholder="Kopi">
                   </div>
                    
-                  <div class="form-group">
+                  <div hidden class="form-group">
                     <label for="type">Tipe</label>
                     <select class="form-control" id="type" name="type">
                       <option value="true">Makanan</option>

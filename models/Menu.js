@@ -33,5 +33,10 @@ const MenuSchema = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
+  discount:
+  {
+    type: ObjectId,
+    ref:"Discount",
+  }
 });
 module.exports = mongoose.model("Menu", MenuSchema);

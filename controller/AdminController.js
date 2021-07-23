@@ -5,6 +5,8 @@ const BarangKeluar = require("../models/BarangTerjual");
 const User = require("../models/User");
 const Role = require("../models/Role");
 const BarangTerjual = require("../models/BarangTerjual");
+const Discount = require("../models/Discount");
+const Member = require("../models/Member");
 
 const getAuth = async (email, password) => {
   return true;
@@ -277,12 +279,9 @@ module.exports = {
     const data = req.body;
     try {
       const menu = await Menu.findById(data.id);
-
       menu.name = data.name_menu;
       menu.price = Number(data.price);
       menu.jumlahBarangTerpakai = Number(data.jumlah);
-      menu.idBarangMasuk = data.id_barang;
-      menu.type = data.type;
       menu.save();
       res.redirect("/tambahmenu");
     } catch (error) {
@@ -328,58 +327,53 @@ module.exports = {
     }
   },
   orderMenu: async (req, res) => {
-    const email = req.session.user.email;
-    let { nama_menu, nama_id, jumlah, total_price } = req.body;
-    const data = [];
-    console.log(jumlah);
-
     try {
+      const email = req.session.user.email;
+      let { nama_menu, nama_id, jumlah, total_price, phone } = req.body;
+
       const alertMesage = req.flash("alertMessage");
       const alertStatus = req.flash("alertStatus");
       const alert = {
         message: alertMesage,
         status: alertStatus,
       };
+
       if (jumlah.length > 0) {
-        await jumlah.forEach(async (element, key) => {
-          if (element !== "0") {
-            const menu = await Menu.findOne({ _id: nama_id[key] }).populate({
+        const data = [];
+        for (let index = 0; index < jumlah.length; index++) {
+          if (jumlah[index] !== "0") {
+            const menu = await Menu.findOne({ _id: nama_id[index] }).populate({
               path: "idBarangMasuk",
               select: "_id name price total",
             });
-            console.log(menu, "ini menu");
+
             if (menu.idBarangMasuk.total - menu.jumlahBarangTerpakai >= 0) {
               const barangLaku = await BarangKeluar.create({
-                idMenu: nama_id[key],
-                jumlah: element,
-                totalPrice: total_price[key],
+                idMenu: nama_id[index],
+                jumlah: jumlah[index],
+                totalPrice: total_price[index],
               });
               const barangMasuks = await BarangMasuk.findOneAndUpdate(
                 { _id: menu.idBarangMasuk._id },
-                { total: menu.idBarangMasuk.total - menu.jumlahBarangTerpakai }
+                {
+                  total: menu.idBarangMasuk.total - menu.jumlahBarangTerpakai,
+                }
               );
-              barangMasuks.save();
 
               await menu.idTerjual.push({ _id: barangLaku._id });
               await menu.save();
-              await data.push({
-                namaMenu: nama_menu[key],
-                jumlah: element,
-                totalPrice: total_price[key],
+              data.push({
+                namaMenu: nama_menu[index],
+                jumlah: jumlah[index],
+                totalPrice: total_price[index],
               });
-              res.render("Print", {
-                title: "Print",
-                data: data,
-                email,
-              });
-            } else {
-              req.flash(
-                "alertMessage",
-                "Gagal Memproses Stok Barang Masuk Habis"
-              );
-              res.redirect("/");
             }
           }
+        }
+        res.render("Print", {
+          title: "Print",
+          data: data,
+          email,
         });
       }
     } catch (error) {
@@ -421,7 +415,11 @@ module.exports = {
     const email = req.session.user.email;
     const alertMesage = req.flash("alertMessage");
     const alertStatus = req.flash("alertStatus");
-    const menu = await Menu.find();
+    const menu = await Menu.find().populate({
+      path: "discount",
+      select: "discount",
+    });
+    console.log(menu, "ini menunya");
     const barang = await BarangMasuk.find();
     const alert = {
       message: alertMesage,
@@ -432,8 +430,41 @@ module.exports = {
       title: "Tambah Member",
       email,
       alert,
-      data:menu,
-      barang
+      data: menu,
+      barang,
+    });
+  },
+  editDiscount: async (req, res) => {
+    const data = req.body;
+    const discount = await Discount.create({
+      discount: data.discount,
+      idMenu: data.id,
+    });
+    const menu = await Menu.findOneAndUpdate(
+      { _id: data.id },
+      {
+        discount: discount._id,
+      }
+    );
+    menu.save();
+    res.redirect("/createmember");
+  },
+  addMember: async (req, res) => {
+    const data = req.body;
+    const member = await Member.create({
+      name: data.name,
+      phoneNumber: data.phone,
+      address: data.address,
+    });
+    member.save();
+  },
+  print: async (req, res) => {
+    const email = req.session.user.email;
+    const { data } = req.body;
+    res.render("Print", {
+      title: "Print",
+      data: data,
+      email,
     });
   },
 };
