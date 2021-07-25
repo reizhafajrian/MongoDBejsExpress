@@ -24,7 +24,7 @@
                   <label for="id_supplier">ID Barang Masuk</label>
                   <select  class="form-control" id="id_barang_add_menus" name="id_barang">
                     <% barang.forEach((element,key)=>{%>
-                      <option   data-name="<%=element.name%>" value="<%=element._id%>"><%=element._id  %> </option>
+                      <option   data-name="<%=element.name%>" value="<%=element._id%>"><%=element._id %> | <%=   element.name %></option>
                     <%})%> 
                   </select>
                 </div>

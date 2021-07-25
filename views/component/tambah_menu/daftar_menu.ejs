@@ -3,7 +3,7 @@
     <tr>
       <th scope="col">No</th>
       <th scope="col">Nama Menu</th>
-      <th scope="col">Harga</th>
+      <th scope="col">Harga satuan</th>
       <th scope="col">Barang Masuk Yang Terpakai</th>
       <th scope="col">Aksi</th>
     </tr>
@@ -13,7 +13,7 @@
     <tr>
       <th scope="row"><%= key+1 %></th>
       <td><%= element.name %></td>
-      <td><%= element.price %></td>
+      <td>Rp.<%= Number((element.price).toFixed(1)).toLocaleString() %></td>
       <td><%= element.jumlahBarangTerpakai %></td>
       <td>
         <button

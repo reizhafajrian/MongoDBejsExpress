@@ -4,7 +4,8 @@
         <th scope="col">No</th>
         <th scope="col">Nama Barang</th>
         <th scope="col">Nama Supplier</th>
-        <th scope="col">Harga</th>
+        <th scope="col">Harga satuan</th>
+        <th scope="col">Harga total Pembelian</th>
         <th scope="col">Tipe</th>
         <th scope="col">Jumlah</th>
         <th scope="col">Action</th>
@@ -19,7 +20,9 @@
               <td>
                 <%- element.idSupplier!==null ?element.idSupplier.name:"supplier tidak terdaftar" %>
               </td>
-              <th scope="col"><%= element.price %> </th>
+              <% let price=Number(element.price) %> 
+              <th scope="col">Rp.<%= parseInt((price).toFixed(1)).toLocaleString() %></th>
+              <th scope="col">Rp.<%= parseInt((element.totalPrice).toFixed(1)).toLocaleString() %></th>
               <th scope="col"><%- element.type?"Makanan":"Minuman" %> </th>
               <th scope="col"><%= element.total %> </th>
               <td>

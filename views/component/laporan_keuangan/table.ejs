@@ -10,16 +10,27 @@
       </tr>
     </thead>
     <tbody>
+      <% let test=0        %> 
         <% data.forEach((element,key)=>{%>
             <tr>
               <th scope="row"><%= key+1 %> </th>
               <td><%= element.idMenu===null?"Menu sudah di Hapus":element.idMenu.name %> </td>
               <td><%= element.idMenu===null?"Menu sudah di Hapus":element.idMenu.price %> </td>
               <th scope="col"><%= element.jumlah %> </th>
-              <th scope="col"><%= element.totalPrice%></th>
+              <th scope="col">Rp.<%= Number((element.totalPrice).toFixed(1)).toLocaleString() %></th>
+              <% test=test+element.totalPrice %> 
+
     
             </tr>
             <%})%>
+            <th scope="row" colspan="3"><%= data.length+1 %> </th>
+            <th scope="col">Total</th>
+
+            <th scope="col">Rp.<%= Number((test).toFixed(1)).toLocaleString() %></th>
+
+
+    
+        
     </tbody>
   </table>
   <!-- Button trigger modal -->
